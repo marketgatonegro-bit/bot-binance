@@ -124,3 +124,4 @@ Cuando estés cómodo con los resultados en paper trading:
 - Con $5 las comisiones de Binance (~0.1% por operación) impactan bastante.
 - No inviertas dinero que no podés permitirte perder.
 # bot-binance
+# bot-binance
