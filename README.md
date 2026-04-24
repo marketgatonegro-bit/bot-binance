@@ -5,6 +5,34 @@ sigue la suba actualizando el stop loss, y vende automáticamente si el precio c
 
 ---
 
+## 🌐 Panel visual para autorizar tu IP en Binance
+
+Antes de arrancar el bot, Binance te pide whitelistear la IP desde donde se conecta tu API Key.
+Este proyecto incluye un panel web simple para mostrarte tu IP pública y testear la conexión.
+
+```bash
+# 1. Copiá .env.example a .env y completá tus claves
+copy .env.example .env
+
+# 2. Instalá dependencias
+pip install -r requirements.txt
+
+# 3. Arrancá el panel
+python ip_panel.py
+```
+
+Luego abrí en tu navegador: **http://localhost:5000**
+
+Vas a ver:
+- 📡 Tu **IP pública** (con botón para copiar)
+- ✅ Si las API Keys están cargadas
+- ✅ Si la conexión con Binance funciona (y tu balance USDT/BNB)
+
+Pegá esa IP en Binance → API Management → *Restrict access to trusted IPs only*.
+
+---
+
+
 ## ¿Cómo funciona?
 
 ```
@@ -21,10 +49,69 @@ DOGE cae a $0.1455 → VENTA AUTOMÁTICA ✅ (ganaste ~$0.045 por DOGE)
 ## 📁 Archivos
 
 ```
-bot.py            ← el bot
-requirements.txt  ← dependencias Python
-.env.example      ← plantilla de configuración
+bot.py                 ← el bot principal
+telegram_notifier.py   ← módulo de notificaciones Telegram
+ip_panel.py            ← panel web para whitelist de IP
+requirements.txt       ← dependencias Python
+.env.example           ← plantilla de configuración
 ```
+
+---
+
+## 📬 Notificaciones Telegram
+
+El bot puede enviarte alertas en tiempo real a través de Telegram para que estés al tanto de todo sin mirar los logs.
+
+### ¿Qué notifica?
+
+| Evento | Descripción |
+|--------|-------------|
+| 📈 **Compras** | Cuando se ejecuta una compra (precio, cantidad, stop inicial) |
+| 📉 **Ventas** | Cuando se ejecuta una venta (precio, PnL, razón: stop loss) |
+| ⬆️ **Trailing Stop** | Cada vez que el stop loss se actualiza al alza |
+| 🚨 **Errores críticos** | Fallas en compras/ventas o errores del loop que requieren tu atención |
+| 📊 **Reporte diario** | Resumen automático cada día con balances y posiciones abiertas |
+| 🤖 **Estado del bot** | Al iniciar el bot confirma que está corriendo |
+
+### Configuración
+
+1. **Creá tu bot en Telegram** (ya lo tenés: `@Trader161183_bot`)
+2. **Copiá el token** al `.env`:
+   ```
+   TELEGRAM_TOKEN="8585394380:AAGmQJ4CXRF6TimrEw4chft7tWeA791D9Sg"
+   TELEGRAM_ENABLED="true"
+   DAILY_REPORT_HOUR=9
+   ```
+3. **Iniciá el bot y enviale `/start`** por Telegram para registrar tu chat
+4. **Listo** — ahora recibirás todas las notificaciones
+
+> 💡 **Tip:** El `chat_id` se guarda automáticamente en `telegram_chat_ids.json`. Si querés agregar otro celular, solo hay que enviarle `/start` al bot desde esa cuenta.
+
+### Comandos disponibles en Telegram
+
+Escribile al bot (`@Trader161183_bot`):
+
+| Comando | Qué hace |
+|---------|----------|
+| `/start` | Registra tu chat para recibir notificaciones |
+| `/status` | Muestra las posiciones abiertas y estado actual |
+| `/balances` | Muestra los balances de tu cuenta Binance |
+| `/help` | Lista de comandos disponibles |
+
+### Reporte diario automático
+
+Cada día a la hora configurada (`DAILY_REPORT_HOUR`, por defecto 09:00 UTC / 06:00 hora Argentina) el bot envía un resumen con:
+- ⏱ Uptime del bot
+- 💰 Balances actuales
+- 📂 Posiciones abiertas (entry, stop loss, cantidad)
+
+Para desactivar las notificaciones cambiá `TELEGRAM_ENABLED="false"` en el `.env`.
+
+---
+
+## 🚀 Paso a paso para subir a Railway
+------- REPLACE
+
 
 ---
 
@@ -71,11 +158,14 @@ requirements.txt  ← dependencias Python
    |---|---|
    | `BINANCE_API_KEY` | tu key de Binance |
    | `BINANCE_API_SECRET` | tu secret de Binance |
-   | `SYMBOL` | `DOGEUSDT` |
+   | `SYMBOLS` | `DOGEUSDT` |
    | `TRADE_AMOUNT` | `5` |
    | `TRAILING_PERCENT` | `3` |
    | `CHECK_INTERVAL` | `10` |
    | `PAPER_TRADING` | `true` |
+   | `TELEGRAM_TOKEN` | token de @BotFather |
+   | `TELEGRAM_ENABLED` | `true` |
+   | `DAILY_REPORT_HOUR` | `9` (UTC) |
 
 7. Click **"Deploy"** y listo 🎉
 

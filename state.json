@@ -1,0 +1,39 @@
+{
+    "BTCUSDT": {
+        "in_position": false,
+        "entry_price": 0.0,
+        "highest_price": 0.0,
+        "stop_loss": 0.0,
+        "quantity": 0.0,
+        "bought_once": false,
+        "last_sell_time": null
+    },
+    "DOGEUSDT": {
+        "in_position": true,
+        "entry_price": 0.09661,
+        "highest_price": 0.09677,
+        "stop_loss": 0.09386689999999999,
+        "quantity": 51.75,
+        "bought_once": true
+    },
+    "SHIBUSDT": {
+        "in_position": true,
+        "entry_price": 6.12e-06,
+        "highest_price": 6.13e-06,
+        "stop_loss": 5.9461e-06,
+        "quantity": 816993.46,
+        "bought_once": true
+    },
+    "PEPEUSDT": {
+        "in_position": true,
+        "entry_price": 3.78e-06,
+        "highest_price": 3.8e-06,
+        "stop_loss": 3.686e-06,
+        "quantity": 1322751.32,
+        "bought_once": true
+    },
+    "_meta": {
+        "daily_loss": 5.0,
+        "last_reset": "2026-04-23"
+    }
+}
